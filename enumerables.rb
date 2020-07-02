@@ -82,9 +82,21 @@ module Enumerable
     end
     returned_value
   end
+
+  def my_map
+    return to_enum unless block_given?
+    returned_array = [] 
+    i = 0
+    while i < length do
+      returned_array << yield(self[i])
+      i += 1
+    end
+    returned_array
+  end
+
 end
 
-array = [5, 5, 7]  
+array = [2, 5, 7]  
 
-a = array.my_none? { |num|  num.even?  }
+a = array.my_map {|n| n*2}
 print a
