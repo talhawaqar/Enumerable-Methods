@@ -29,7 +29,7 @@ module Enumerable
     return to_enum unless block_given?
 
     returned_array = []
-    self.my_each do |n|
+    my_each do |n|
       returned_array << n if yield(n)
     end
     returned_array
@@ -39,7 +39,7 @@ module Enumerable
     return to_enum unless block_given?
 
     returned_value = false
-    self.my_each do |n|
+    my_each do |n|
       if yield(n)
         returned_value = true
       else
@@ -54,7 +54,7 @@ module Enumerable
     return to_enum unless block_given?
 
     returned_value = false
-    self.my_each do |n|
+    my_each do |n|
       if yield(n)
         returned_value = true
         break
@@ -67,7 +67,7 @@ module Enumerable
     return to_enum unless block_given?
 
     returned_value = true
-    self.my_each do |n|
+    my_each do |n|
       if yield(n)
         returned_value = false
         break
@@ -80,21 +80,22 @@ module Enumerable
     return length unless block_given?
 
     returned_value = 0
-    self.my_each do |n|
+    my_each do |n|
       returned_value += 1 if yield(n)
     end
     returned_value
   end
 
-  def my_map(proc=nil)
+  def my_map(proc = nil)
     return to_enum unless block_given?
+
     returned_array = []
     i = 0
     while i < length
       if proc.nil?
         returned_array << yield(self[i])
       else
-        returned_array <<  yield.call(self[i]) if !yield.call(self[i]).nil?
+        returned_array << yield.call(self[i]) unless yield.call(self[i]).nil?
       end
       i += 1
     end
@@ -118,5 +119,6 @@ end
 def multiply_els(my_array)
   my_array.my_inject(1) { |multiply, number| multiply * number }
 end
+test_array = [2, 3, 4]
 multiply = multiply_els(test_array)
 print multiply
