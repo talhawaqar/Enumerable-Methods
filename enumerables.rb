@@ -22,8 +22,19 @@ module Enumerable
     end
     returned_array
   end
+  def my_select
+    return to_enum unless block_given?
+    returned_array = []
+    self.my_each do |n|
+      if yield(n)
+        returned_array << n
+      end
+    end
+    returned_array
+  end
 end
 
 array = [1, 2, 3]  
-a = array.my_each_with_index { |value,index| print "#{index}#{value} \n" }
-print "\n  #{a}\n"
+
+a = array.my_select { |num|  num.even?  }
+print a
