@@ -86,13 +86,16 @@ module Enumerable
     returned_value
   end
 
-  def my_map
+  def my_map(proc=nil)
     return to_enum unless block_given?
-
     returned_array = []
     i = 0
     while i < length
-      returned_array << yield(self[i])
+      if proc.nil?
+        returned_array << yield(self[i])
+      else
+        returned_array <<  yield.call(self[i]) if !yield.call(self[i]).nil?
+      end
       i += 1
     end
     returned_array
@@ -111,9 +114,6 @@ module Enumerable
   end
 end
 
-test_array = [2, 5, 7]
-# r = test_array.my_select {|n| n.even?}
-# print r
 # Function tu test my_inject
 def multiply_els(my_array)
   my_array.my_inject(1) { |multiply, number| multiply * number }
