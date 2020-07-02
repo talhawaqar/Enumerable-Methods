@@ -94,9 +94,23 @@ module Enumerable
     returned_array
   end
 
+  def my_inject(accumulator=nil)
+    return to_enum unless block_given?
+    
+    if accumulator.nil?
+      accumulator = 0
+    end
+    i=0
+    while i < length do
+      accumulator = yield(accumulator,self[i])
+      i += 1
+    end
+    accumulator
+  end
+
 end
 
 array = [2, 5, 7]  
 
-a = array.my_map {|n| n*2}
+a = array.my_inject(1000) { |sum, number| sum + number }
 print a
