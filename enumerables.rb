@@ -60,6 +60,18 @@ module Enumerable
     returned_value
   end
 
+  def my_none?
+    return to_enum unless block_given?
+    returned_value = true
+    self.my_each do |n|
+      if yield(n)
+        returned_value = false
+        break
+      end
+    end
+    returned_value
+  end 
+
   def my_count
     return length unless block_given?
     returned_value = 0
@@ -72,7 +84,7 @@ module Enumerable
   end
 end
 
-array = [2, 5, 7, 4, 8]  
+array = [5, 5, 7]  
 
-a = array.my_count {|n| n.even? }
+a = array.my_none? { |num|  num.even?  }
 print a
