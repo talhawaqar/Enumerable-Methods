@@ -59,9 +59,20 @@ module Enumerable
     end
     returned_value
   end
+
+  def my_count
+    return length unless block_given?
+    returned_value = 0
+    self.my_each do |n|
+      if yield(n)
+        returned_value += 1
+      end
+    end
+    returned_value
+  end
 end
 
-array = [2, 5, 7]  
+array = [2, 5, 7, 4, 8]  
 
-a = array.my_any? { |num|  num.even?  }
+a = array.my_count {|n| n.even? }
 print a
