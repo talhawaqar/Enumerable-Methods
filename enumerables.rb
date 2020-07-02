@@ -22,6 +22,7 @@ module Enumerable
     end
     returned_array
   end
+
   def my_select
     return to_enum unless block_given?
     returned_array = []
@@ -32,9 +33,24 @@ module Enumerable
     end
     returned_array
   end
+
+  def my_all?
+    return to_enum unless block_given?
+    returned_value = false
+    self.my_each do |n|
+      if yield(n)
+        returned_value = true
+      else
+        returned_value = false
+        break
+      end
+    end
+    returned_value
+  end
+  
 end
 
-array = [1, 2, 3]  
+array = [1, 5, 3]  
 
-a = array.my_select { |num|  num.even?  }
+a = array.my_any? { |num|  num.even?  }
 print a
