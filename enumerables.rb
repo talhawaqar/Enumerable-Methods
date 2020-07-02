@@ -48,9 +48,20 @@ module Enumerable
     returned_value
   end
   
+  def my_any?
+    return to_enum unless block_given?
+    returned_value = false
+    self.my_each do |n|
+      if yield(n)
+        returned_value = true
+        break
+      end
+    end
+    returned_value
+  end
 end
 
-array = [1, 5, 3]  
+array = [2, 5, 7]  
 
 a = array.my_any? { |num|  num.even?  }
 print a
