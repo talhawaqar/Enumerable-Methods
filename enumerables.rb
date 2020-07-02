@@ -100,6 +100,7 @@ module Enumerable
     if accumulator.nil?
       accumulator = 0
     end
+    
     i=0
     while i < length do
       accumulator = yield(accumulator,self[i])
@@ -107,10 +108,13 @@ module Enumerable
     end
     accumulator
   end
-
 end
 
-array = [2, 5, 7]  
+def multiply_els(my_array)
+  my_array.my_inject(1) { |multiply, number| multiply * number }
+end
 
-a = array.my_inject(1000) { |sum, number| sum + number }
-print a
+test_array = [2, 5, 7]  
+
+multiply = multiply_els(test_array)
+print multiply
