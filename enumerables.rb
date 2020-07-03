@@ -35,19 +35,27 @@ module Enumerable
     returned_array
   end
 
-  def my_all?
-    return to_enum unless block_given?
+  def my_all?(*arg)
 
-    returned_value = false
-    my_each do |n|
-      if yield(n)
-        returned_value = true
-      else
-        returned_value = false
-        break
-      end
+    if arg.length >2 
+      return  "`all?': wrong number of arguments (given #{arg.length}, expected 0..1)"
+
+    elsif block_given?
+      my_each { |n| return false unless yield(n) }
+  
+    elsif arg.empty? 
+      returned_value = self.include?(nil)? false : true
+
+    elsif arg[0].is_a? Class
+      my_each { |n| return false unless n.class.ancestors.include?(arg[0]) }
+
+    elsif arg[0].is_a? Regexp
+      my_each { |n| return false unless arg[0].match(n) }
+    else
+      my_each { |n| return false unless n === arg[0] }
     end
-    returned_value
+    
+    true
   end
 
   def my_any?
@@ -116,9 +124,13 @@ module Enumerable
 end
 
 # Function tu test my_inject
-def multiply_els(my_array)
-  my_array.my_inject(1) { |multiply, number| multiply * number }
-end
-test_array = [2, 3, 4]
-multiply = multiply_els(test_array)
-print multiply
+# def multiply_els(my_array)
+#   my_array.my_inject(1) { |multiply, number| multiply * number }
+# end
+# test_array = [2, 3, 4]
+# multiply = multiply_els(test_array)
+# print multiply
+
+test_array = [1, 2, 5 ]
+print test_array.my_all?(1) 
+print test_array.all?(1)
