@@ -34,10 +34,9 @@ module Enumerable
   end
 
   def my_all?(*arg)
-    if arg.length > 1
-      return "`all?': wrong number of arguments (given #{arg.length}, expected 0..1)"
+    return "`all?': wrong number of arguments (given #{arg.length}, expected 0..1)" if arg.length > 1
 
-    elsif block_given?
+    if block_given?
       my_each { |n| return false unless yield(n) }
 
     elsif arg.empty?
@@ -56,10 +55,9 @@ module Enumerable
   end
 
   def my_any?(*arg)
-    if arg.length > 1
-      return "`my_any?': wrong number of arguments (given #{arg.length}, expected 0..1)"
+    return "`my_any?': wrong number of arguments (given #{arg.length}, expected 0..1)" if arg.length > 1
 
-    elsif block_given?
+    if block_given?
       my_each { |n| return true if yield(n) }
 
     elsif arg.empty?
@@ -79,10 +77,9 @@ module Enumerable
   end
 
   def my_none?(*arg)
-    if arg.length > 1
-      return "`my_none?': wrong number of arguments (given #{arg.length}, expected 0..1)"
+    return "`my_none?': wrong number of arguments (given #{arg.length}, expected 0..1)" if arg.length > 1
 
-    elsif block_given?
+    if block_given?
       my_each { |n| return false if yield(n) }
 
     elsif arg.empty?
@@ -102,10 +99,10 @@ module Enumerable
 
   def my_count(*arg)
     returned_value = 0
-    if arg.length > 1
-      return "`my_none?': wrong number of arguments (given #{arg.length}, expected 0..1)"
 
-    elsif block_given?
+    return "`my_none?': wrong number of arguments (given #{arg.length}, expected 0..1)" if arg.length > 1
+
+    if block_given?
       my_each { |n| returned_value += 1 if yield(n) }
     elsif arg.empty?
       returned_value = length
@@ -118,14 +115,12 @@ module Enumerable
 
   def my_map(proc = nil)
     returned_array = []
-    i = 0
-    while i < length
+    my_each do |n|
       returned_array << if proc.nil?
-                          yield(self[i])
+                          yield(n)
                         else
-                          proc.call(self[i])
+                          proc.call(n)
                         end
-      i += 1
     end
     returned_array
   end
