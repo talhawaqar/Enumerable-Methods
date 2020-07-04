@@ -120,11 +120,11 @@ module Enumerable
     returned_array = []
     i = 0
     while i < length
-      if proc.nil?
-        returned_array << yield(self[i])
-      else
-        returned_array << proc.call(self[i])
-      end
+      returned_array << if proc.nil?
+                          yield(self[i])
+                        else
+                          proc.call(self[i])
+                        end
       i += 1
     end
     returned_array
