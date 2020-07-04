@@ -29,22 +29,19 @@ module Enumerable
     return to_enum unless block_given?
 
     returned_array = []
-    my_each do |n|
-      returned_array << n if yield(n)
-    end
+    my_each { |n| returned_array << n if yield(n) }
     returned_array
   end
 
   def my_all?(*arg)
-
-    if arg.length >2 
-      return  "`all?': wrong number of arguments (given #{arg.length}, expected 0..1)"
+    if arg.length > 1
+      return "`all?': wrong number of arguments (given #{arg.length}, expected 0..1)"
 
     elsif block_given?
       my_each { |n| return false unless yield(n) }
-  
-    elsif arg.empty? 
-      returned_value = self.include?(nil)? false : true
+
+    elsif arg.empty?
+      return include?(nil) ? false : true
 
     elsif arg[0].is_a? Class
       my_each { |n| return false unless n.class.ancestors.include?(arg[0]) }
@@ -52,85 +49,122 @@ module Enumerable
     elsif arg[0].is_a? Regexp
       my_each { |n| return false unless arg[0].match(n) }
     else
-      my_each { |n| return false unless n === arg[0] }
+      my_each { |n| return false unless n == arg[0] }
     end
-    
+
     true
   end
 
-  def my_any?
-    return to_enum unless block_given?
+  def my_any?(*arg)
+    if arg.length > 1
+      return "`my_any?': wrong number of arguments (given #{arg.length}, expected 0..1)"
 
-    returned_value = false
-    my_each do |n|
-      if yield(n)
-        returned_value = true
-        break
-      end
+    elsif block_given?
+      my_each { |n| return true if yield(n) }
+
+    elsif arg.empty?
+      return true
+
+    elsif arg[0].is_a? Class
+      my_each { |n| return true if n.class.ancestors.include?(arg[0]) }
+
+    elsif arg[0].is_a? Regexp
+      my_each { |n| return true if arg[0].match(n) }
+
+    else
+      my_each { |n| return true if n == arg[0] }
     end
-    returned_value
+
+    false
   end
 
-  def my_none?
-    return to_enum unless block_given?
+  def my_none?(*arg)
+    if arg.length > 1
+      return "`my_none?': wrong number of arguments (given #{arg.length}, expected 0..1)"
 
-    returned_value = true
-    my_each do |n|
-      if yield(n)
-        returned_value = false
-        break
-      end
+    elsif block_given?
+      my_each { |n| return false if yield(n) }
+
+    elsif arg.empty?
+      my_each { |n| return false unless n.nil? || n == false }
+
+    elsif arg[0].is_a? Class
+      my_each { |n| return false if n.class.ancestors.include?(arg[0]) }
+
+    elsif arg[0].is_a? Regexp
+      my_each { |n| return false if arg[0].match(n) }
+    else
+      my_each { |n| return false if n == arg[0] }
     end
-    returned_value
+
+    true
   end
 
-  def my_count
-    return length unless block_given?
-
+  def my_count(*arg)
     returned_value = 0
-    my_each do |n|
-      returned_value += 1 if yield(n)
+    if arg.length > 1
+      return "`my_none?': wrong number of arguments (given #{arg.length}, expected 0..1)"
+
+    elsif block_given?
+      my_each { |n| returned_value += 1 if yield(n) }
+    elsif arg.empty?
+      returned_value = length
+    else
+      my_each { |n| returned_value += 1 if n == arg[0] }
     end
+
     returned_value
   end
 
   def my_map(proc = nil)
-    return to_enum unless block_given?
-
     returned_array = []
     i = 0
     while i < length
       if proc.nil?
         returned_array << yield(self[i])
       else
-        returned_array << yield.call(self[i]) unless yield.call(self[i]).nil?
+        returned_array << proc.call(self[i])
       end
       i += 1
     end
     returned_array
   end
 
-  def my_inject(accumulator = nil)
-    return to_enum unless block_given?
+  def my_inject(*arg)
+    accumulator = 0
 
-    accumulator = 0 if accumulator.nil?
-    i = 0
-    while i < length
-      accumulator = yield(accumulator, self[i])
-      i += 1
+    calculations = {
+      :+ => proc { |x, y| x + y },
+      :- => proc { |x, y| x - y },
+      :/ => proc { |x, y| x / y },
+      :* => proc { |x, y| x * y }
+    }
+
+    if arg.empty? && block_given?
+      my_each { |n| accumulator = yield(accumulator, n) }
+
+    elsif arg.length == 1 && block_given?
+      accumulator = arg[0]
+      my_each { |n| accumulator = yield(accumulator, n) }
+
+    elsif arg.length == 1 && !block_given?
+      accumulator = arg[0] == :+ || arg[0] == :- ? 0 : 1
+      my_each { |n| accumulator = calculations[arg[0]].call(accumulator, n) }
+
+    elsif arg.length == 2
+      accumulator = arg[0]
+      my_each { |n| accumulator = calculations[arg[1]].call(accumulator, n) }
     end
+
     accumulator
   end
 end
 
-# Function tu test my_inject
-# def multiply_els(my_array)
-#   my_array.my_inject(1) { |multiply, number| multiply * number }
-# end
-# test_array = [2, 3, 4]
-# multiply = multiply_els(test_array)
-# print multiply
+# Function to test my_inject
+def multiply_els(my_array)
+  my_array.my_inject(:*)
+end
 
-test_array = [1, 2, 5 ]
-print test_array.my_all?(1) 
-print test_array.all?(1)
+test_array = [2, 3, 4]
+multiply = multiply_els(test_array)
+print multiply
