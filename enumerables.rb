@@ -1,28 +1,16 @@
 module Enumerable
   def my_each
     return to_enum unless block_given?
-
-    returned_array = []
-    i = 0
-    while i < length
-      returned_array << self[i]
-      yield(self[i])
-      i += 1
-    end
-    returned_array
+    my_array = self.to_a
+    my_array.length.times { |i| yield(my_array[i]) }
+    self
   end
 
   def my_each_with_index
     return to_enum unless block_given?
-
-    returned_array = []
-    i = 0
-    while i < length
-      returned_array << self[i]
-      yield(self[i], i)
-      i += 1
-    end
-    returned_array
+    my_array = self.to_a
+    length.times { |i| yield(my_array[i], i) }
+    self
   end
 
   def my_select
@@ -126,7 +114,7 @@ module Enumerable
   end
 
   def my_inject(*arg)
-    accumulator = 0
+    accumulator = "0"
 
     calculations = {
       :+ => proc { |x, y| x + y },
