@@ -109,7 +109,7 @@ module Enumerable
   end
 
   def my_map(proc = nil)
-    return '#<Enumerator: [1, 3, 4, 2]:my_map>' unless block_given? && proc.nil?
+    return "#<Enumerator: #{self}:my_map>" unless block_given? && proc.nil?
 
     returned_array = []
     my_each do |n|
