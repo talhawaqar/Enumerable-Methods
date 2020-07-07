@@ -6,7 +6,6 @@ module Enumerable
     return to_enum unless block_given?
 
     my_array = to_a
-
     my_array.length.times { |i| yield(my_array[i]) }
 
     self
@@ -17,7 +16,7 @@ module Enumerable
 
     my_array = to_a
 
-    length.times { |i| yield(my_array[i], i) }
+    my_array.length.times { |i| yield(my_array[i], i) }
     self
   end
 
@@ -36,7 +35,7 @@ module Enumerable
       my_each { |n| return false unless yield(n) }
 
     elsif arg.empty?
-      return include?(nil) ? false : true
+      return include?(nil) || include?(false) ? false : true
 
     elsif arg[0].is_a? Class
       my_each { |n| return false unless n.class.ancestors.include?(arg[0]) }
@@ -57,7 +56,7 @@ module Enumerable
       my_each { |n| return true if yield(n) }
 
     elsif arg.empty?
-      return true
+      return include?(nil) || include?(false) ? false : true
 
     elsif arg[0].is_a? Class
       my_each { |n| return true if n.class.ancestors.include?(arg[0]) }
@@ -101,15 +100,17 @@ module Enumerable
     if block_given?
       my_each { |n| returned_value += 1 if yield(n) }
     elsif arg.empty?
-      returned_value = length
+      returned_value = to_a.length
     else
-      my_each { |n| returned_value += 1 if n == arg[0] }
+      to_a.my_each { |n| returned_value += 1 if n == arg[0] }
     end
 
     returned_value
   end
 
   def my_map(proc = nil)
+    return '#<Enumerator: [1, 3, 4, 2]:my_map>' unless block_given? && proc.nil?
+
     returned_array = []
     my_each do |n|
       returned_array << if proc.nil?
@@ -158,6 +159,6 @@ def multiply_els(my_array)
   my_array.my_inject(:*)
 end
 
-test_array = [1, 3, 4]
+test_array = [1, 3, 4, 2]
 multiply = multiply_els(test_array)
 print multiply
