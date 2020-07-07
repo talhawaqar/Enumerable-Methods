@@ -1,14 +1,22 @@
+# rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
 module Enumerable
   def my_each
     return to_enum unless block_given?
-    my_array = self.to_a
+
+    my_array = to_a
+
     my_array.length.times { |i| yield(my_array[i]) }
+
     self
   end
 
   def my_each_with_index
     return to_enum unless block_given?
-    my_array = self.to_a
+
+    my_array = to_a
+
     length.times { |i| yield(my_array[i], i) }
     self
   end
@@ -114,8 +122,6 @@ module Enumerable
   end
 
   def my_inject(*arg)
-    accumulator = "0"
-
     calculations = {
       :+ => proc { |x, y| x + y },
       :- => proc { |x, y| x - y },
@@ -124,6 +130,7 @@ module Enumerable
     }
 
     if arg.empty? && block_given?
+      accumulator = my_any?(String) ? '' : 0
       my_each { |n| accumulator = yield(accumulator, n) }
 
     elsif arg.length == 1 && block_given?
@@ -143,11 +150,14 @@ module Enumerable
   end
 end
 
-# Function to test my_inject
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
+
 def multiply_els(my_array)
   my_array.my_inject(:*)
 end
 
-test_array = [2, 3, 4]
+test_array = [1, 3, 4]
 multiply = multiply_els(test_array)
 print multiply
