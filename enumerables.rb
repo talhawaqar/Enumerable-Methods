@@ -160,4 +160,4 @@ def multiply_els(my_array)
 end
 
 test_array = [1, 3, 4, 2]
-p multiply = multiply_els(test_array)
+p multiply_els(test_array)
