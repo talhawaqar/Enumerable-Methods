@@ -56,7 +56,7 @@ module Enumerable
       my_each { |n| return true if yield(n) }
 
     elsif arg.empty?
-      return include?(nil) || include?(false) ? false : true
+      return include?(nil) || include?(false) ? true : false
 
     elsif arg[0].is_a? Class
       my_each { |n| return true if n.class.ancestors.include?(arg[0]) }
@@ -109,7 +109,7 @@ module Enumerable
   end
 
   def my_map(proc = nil)
-    return "#<Enumerator: #{self}:my_map>" unless block_given? && proc.nil?
+    return to_enum(:map) unless block_given? && proc.nil?
 
     returned_array = []
     my_each do |n|
@@ -160,5 +160,4 @@ def multiply_els(my_array)
 end
 
 test_array = [1, 3, 4, 2]
-multiply = multiply_els(test_array)
-print multiply
+p multiply = multiply_els(test_array)
