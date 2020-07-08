@@ -58,6 +58,7 @@ module Enumerable
     elsif arg.empty?
       my_each do |v|
         return true if v
+
         return false
       end
 
@@ -111,9 +112,10 @@ module Enumerable
     returned_value
   end
 
-  def my_map (proc = nil)
+  def my_map(proc = nil)
     return to_enum(:map) if !block_given? && proc.nil?
-    p "h2"
+
+    p 'h2'
     returned_array = []
     my_each do |n|
       returned_array << if proc.nil?
@@ -134,7 +136,7 @@ module Enumerable
     }
 
     if arg.empty? && block_given?
-      accumulator = self.to_a[0]
+      accumulator = to_a[0]
       drop(1).my_each { |n| accumulator = yield(accumulator, n) }
 
     elsif arg.length == 1 && block_given?
