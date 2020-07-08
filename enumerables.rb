@@ -58,9 +58,8 @@ module Enumerable
     elsif arg.empty?
       my_each do |v|
         return true if v
-
-        return false
       end
+      return false
 
     elsif arg[0].is_a? Class
       my_each { |n| return true if n.class.ancestors.include?(arg[0]) }
@@ -115,7 +114,6 @@ module Enumerable
   def my_map(proc = nil)
     return to_enum(:map) if !block_given? && proc.nil?
 
-    p 'h2'
     returned_array = []
     my_each do |n|
       returned_array << if proc.nil?
