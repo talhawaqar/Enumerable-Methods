@@ -56,7 +56,10 @@ module Enumerable
       my_each { |n| return true if yield(n) }
 
     elsif arg.empty?
-      return include?(nil) || include?(false) ? true : false
+      my_each do |v|
+        return true if v
+        return false
+      end
 
     elsif arg[0].is_a? Class
       my_each { |n| return true if n.class.ancestors.include?(arg[0]) }
@@ -108,9 +111,9 @@ module Enumerable
     returned_value
   end
 
-  def my_map(proc = nil)
-    return to_enum(:map) unless block_given? && proc.nil?
-
+  def my_map (proc = nil)
+    return to_enum(:map) if !block_given? && proc.nil?
+    p "h2"
     returned_array = []
     my_each do |n|
       returned_array << if proc.nil?
@@ -131,8 +134,8 @@ module Enumerable
     }
 
     if arg.empty? && block_given?
-      accumulator = my_any?(String) ? '' : 0
-      my_each { |n| accumulator = yield(accumulator, n) }
+      accumulator = self.to_a[0]
+      drop(1).my_each { |n| accumulator = yield(accumulator, n) }
 
     elsif arg.length == 1 && block_given?
       accumulator = arg[0]
