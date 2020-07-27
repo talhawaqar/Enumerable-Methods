@@ -113,4 +113,40 @@ describe Enumerable do
       expect(%w[12x 4w zy].my_any?(/x/)).to eq(true)
     end
   end
+
+  describe '#my_none?' do
+    it 'returns true if none of the elements of my_array is equal to 6' do
+      expect(my_array.my_none? { |x| x == 6 }).to eq(true)
+    end
+
+    it 'returns true if none of the elements of an array is true ' do
+      expect([nil, false].my_none?).to eq(true)
+    end
+
+    it 'returns true if none of the elements of an array has a datatype of Integer' do
+      expect(['rumbi', true, 3.7].my_none?(Integer)).to eq(true)
+    end
+
+    it 'returns true if none element of my_array equal to 7' do
+      expect(my_array.my_none?(7)).to eq(true)
+    end
+
+    it 'returns true if regex does not matches any element of an array' do
+      expect(%w[12x 4w zy].my_none?(/s/)).to eq(true)
+    end
+  end
+
+  describe '#my_count' do
+    it 'returns the number of elements in an array' do
+      expect(my_array.my_count).to eq(5)
+    end
+
+    it 'returns the number of elements in an array and matches with the given argument' do
+      expect(my_array.my_count(4)).to eq(1)
+    end
+
+    it 'returns the number of elements based on the condition in an array' do
+      expect(my_array.my_count { |x| x > 2}).to eq(3)
+    end
+  end
 end
