@@ -8,6 +8,11 @@ In this project we re-created some of the Ruby's enumerable methods like each, e
 
 - Ruby
 
+## Tested with 
+
+- RSpec 3.9 
+
+
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps:
@@ -47,6 +52,12 @@ To make any change,
 - Twitter: [@MuhammadTalhaW4](https://twitter.com/MuhammadTalhaW4)
 - email: (talhawaqar007@hotmail.com)
 - email: (talhawaqar007@gmail.com)
+
+👤 **Rumbidzayi Mudziviri**
+
+- Github: [@Rumbie-Mudzie7](https://github.com/Rumbie-Mudzie7)
+- Twitter: [@RumbidzayiMudz3](https://twitter.com/RumbidzayiMudz3)
+- Linkedin: [rumbidzayimudziviri](https://www.linkedin.com/in/rumbidzayi-mudziviri-792b4b85/)
 
 ## 🤝 Contributing
 
