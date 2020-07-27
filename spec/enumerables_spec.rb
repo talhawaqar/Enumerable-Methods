@@ -3,6 +3,7 @@ require_relative '../enumerables.rb'
 describe Enumerable do
   let(:my_array) { [1, 2, 3, 4, 5] }
   let(:my_hash) { { a: 1, b: 2 } }
+  let(:my_proc) { proc { |x| x < 3 } }
 
   describe '#my_each' do
     it 'iterates to entire array of numbers and return array' do
@@ -146,7 +147,39 @@ describe Enumerable do
     end
 
     it 'returns the number of elements based on the condition in an array' do
-      expect(my_array.my_count { |x| x > 2}).to eq(3)
+      expect(my_array.my_count { |x| x > 2 }).to eq(3)
+    end
+  end
+
+  describe '#my_map' do
+    it 'returns enumerable when no block and proc is provided' do
+      expect(my_array.my_map).to be_a Enumerable
+    end
+
+    it 'returns array bases upon condition in given block' do
+      expect(my_array.my_map { |x| x > 3 }).to eq([false, false, false, true, true])
+    end
+
+    it 'returns array bases upon condition in given proc' do
+      expect(my_array.my_map(&my_proc)).to eq([true, true, false, false, false])
+    end
+  end
+
+  describe '#my_inject' do
+    it 'multiplies the elements of the my_array when :* symbol passed in argument' do
+      expect(my_array.my_inject(:*)).to eql(120)
+    end
+
+    it 'multiplies the elements of the my_array when accumilator and :* symbol passed in argument' do
+      expect(my_array.my_inject(2, :*)).to eql(240)
+    end
+
+    it 'returns the sum of elements of my_array' do
+      expect(my_array.my_inject { |acc, n| acc + n }).to eql(15)
+    end
+
+    it 'returns the sum of elements of my_array adding preset accumilator in argument' do
+      expect(my_array.my_inject(5) { |acc, n| acc + n }).to eql(20)
     end
   end
 end
