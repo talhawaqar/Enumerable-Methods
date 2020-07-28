@@ -126,7 +126,7 @@ module Enumerable
   end
 
   def my_inject(*arg)
-    return 'LocalJumpError: no block given (yield)' if arg.empty? && !block_given?
+    return raise LocalJumpError, 'no block given (yield)' if arg.empty? && !block_given?
 
     calculations = {
       :+ => proc { |x, y| x + y }, :- => proc { |x, y| x - y },
