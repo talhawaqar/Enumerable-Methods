@@ -33,13 +33,6 @@ To make any change,
 
 ## Authors
 
-👤 **Visvaldas**
-
-- Github: [@visva-dev](https://github.com/visva-dev)
-- Linkedin: [@Visvaldas-Rapalis](https://www.linkedin.com/in/visvaldas-rapalis/)
-- Twitter: [@Visva_Dev](https://twitter.com/Visva_Dev)
-- email: (visva.rapalis@gmail.com)
-
 👤 **Muhammad Talha Waqar**
 
 - Github: [@talhawaqar](https://github.com/talhawaqar)

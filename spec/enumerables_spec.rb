@@ -181,5 +181,9 @@ describe Enumerable do
     it 'returns the sum of elements of my_array adding preset accumilator in argument' do
       expect(my_array.my_inject(5) { |acc, n| acc + n }).to eql(20)
     end
+
+    it 'returns the sum of elements of my_array adding preset accumilator in argument' do
+      expect { my_array.my_inject }.to raise_error(LocalJumpError)
+    end
   end
 end
