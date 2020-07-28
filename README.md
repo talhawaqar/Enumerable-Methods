@@ -8,10 +8,9 @@ In this project we re-created some of the Ruby's enumerable methods like each, e
 
 - Ruby
 
-## Tested with 
+## Tested with
 
-- RSpec 3.9 
-
+- RSpec 3.9
 
 ## Getting Started
 
@@ -35,6 +34,14 @@ To get a local copy up and running follow these simple example steps:
 To make any change,
 
 - Open related file by using text editor.
+
+### Run Tests
+
+- Open Terminal
+- Change directory to folder to download repository
+- Use `cd <file-path>`
+- Run `gem install rspec`
+- Run `rspec`
 
 ## Authors
 

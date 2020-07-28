@@ -186,4 +186,10 @@ describe Enumerable do
       expect { my_array.my_inject }.to raise_error(LocalJumpError)
     end
   end
+
+  describe '#multiply_els' do
+    it 'multiplies all element of array and return it' do
+      expect(multiply_els([1, 2, 3, 4])).to eql(24)
+    end
+  end
 end
