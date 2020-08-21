@@ -57,7 +57,7 @@ To make any change,
 
 - Github: [@Rumbie-Mudzie7](https://github.com/Rumbie-Mudzie7)
 - Twitter: [@RumbidzayiMudz3](https://twitter.com/RumbidzayiMudz3)
-- Linkedin: [rumbidzayimudziviri](https://www.linkedin.com/in/rumbidzayi-mudziviri-792b4b85/)
+- Linkedin: [rumbidzayimudziviri](https://www.linkedin.com/in/rumbidzayi-mudziviri)
 
 ## 🤝 Contributing
 
